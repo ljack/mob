@@ -17,6 +17,25 @@ import (
 	"time"
 )
 
+func Ping(action string, configuration config.Configuration) {
+	if err := ping(action, configuration); err != nil {
+		fmt.Println("Error pinging " + action)
+	}
+}
+
+func ping(action string, configuration config.Configuration) interface{} {
+	room := getMobTimerRoom(configuration)
+	timerUser := getUserForMobTimer(configuration.TimerUser)
+	err := httpPutMobNextPing(action, room, timerUser, configuration.TimerUrl, configuration.TimerInsecure)
+	if err != nil {
+		say.Error("remote timer couldn't be started")
+		say.Error(err.Error())
+		exit(1)
+	}
+
+	return nil
+}
+
 func StartTimer(timerInMinutes string, configuration config.Configuration) {
 	if err := startTimer(configuration.Timer, configuration); err != nil {
 		exit(1)
@@ -169,6 +188,14 @@ func httpPutBreakTimer(timeoutInMinutes int, room string, user string, timerServ
 	putBody, _ := json.Marshal(map[string]interface{}{
 		"breaktimer": timeoutInMinutes,
 		"user":       user,
+	})
+	return sendRequest(putBody, "PUT", timerService+room, disableSSLVerification)
+}
+
+func httpPutMobNextPing(action string, room string, user string, timerService string, disableSSLVerification bool) error {
+	putBody, _ := json.Marshal(map[string]interface{}{
+		"action": action,
+		"user":   user,
 	})
 	return sendRequest(putBody, "PUT", timerService+room, disableSSLVerification)
 }

@@ -25,6 +25,7 @@ Basic Commands with Options:
     [--stay|-s]                          Stay on wip branch (default)
     [--return-to-base-branch|-r]         Return to base branch
     [--message|-m <commit-message>]      Override commit message
+	[--ping|-p]							 Send mob next ping to remote room	
   done
     [--no-squash]                        Squash no commits from wip branch, only merge wip branch
     [--squash]                           Squash all commits from wip branch
