@@ -37,7 +37,7 @@ func ping(action string, configuration config.Configuration) interface{} {
 }
 
 func StartTimer(timerInMinutes string, configuration config.Configuration) {
-	if err := startTimer(configuration.Timer, configuration); err != nil {
+	if err := startTimer(timerInMinutes, configuration); err != nil {
 		exit(1)
 	}
 }
