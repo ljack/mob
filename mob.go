@@ -794,6 +794,10 @@ func next(configuration config.Configuration) {
 	if !configuration.NextStay {
 		git("checkout", currentBaseBranch.Name)
 	}
+
+	if configuration.PingRemoteRoom {
+		Ping("next", configuration)
+	}
 }
 
 func getChangesOfLastCommit() string {

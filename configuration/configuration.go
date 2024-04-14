@@ -44,6 +44,7 @@ type Configuration struct {
 	TimerUrl                       string // override with MOB_TIMER_URL
 	TimerInsecure                  bool   // override with MOB_TIMER_INSECURE
 	ResetDeleteRemoteWipBranch     bool   // override with MOB_RESET_DELETE_REMOTE_WIP_BRANCH
+	PingRemoteRoom                 bool   // if true ping remote room
 }
 
 func (c Configuration) Mob(command string) string {
@@ -116,6 +117,8 @@ func ParseArgs(args []string, configuration Configuration) (command string, para
 	for i := 1; i < len(args); i++ {
 		arg := args[i]
 		switch arg {
+		case "--ping", "-p":
+			newConfiguration.PingRemoteRoom = true
 		case "--include-uncommitted-changes", "-i":
 			newConfiguration.StartIncludeUncommittedChanges = true
 		case "--debug":
